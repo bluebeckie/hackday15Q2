@@ -4,7 +4,7 @@
 // @version      1.0.0
 // @description  based on the weather info where the user is at, we present her suitable items from yahoo shopping to buy
 // @author       beckie
-// @match        https://*.yahoo.com/
+// @match        https://*.yahoo.com/*
 // @require      http://code.jquery.com/jquery-2.1.4.min.js
 // @grant        none
 // ==/UserScript==
