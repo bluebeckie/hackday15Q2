@@ -5,12 +5,26 @@
 // @description  based on the weather info where the user is at, we present her suitable items from yahoo shopping to buy
 // @author       beckie
 // @match        https://*.yahoo.com/*
-// @excludes     https://*.corp.yahoo.com/*
 // @require      http://code.jquery.com/jquery-2.1.4.min.js
 // @grant        none
 // ==/UserScript==
 
 (function(){
+    var host;
+    var init = function () {
+        if (document.querySelector('.End-0 #Aside')) {
+            host = $('.End-0 #Aside');
+        } else if (document.querySelector('.yom-secondary')) {
+            host = $('.yom-secondary');
+        } else if (document.querySelector('.yom-ad-lrec')) {
+            host = $('.yom-ad-lrec');
+        }
+        console.log(host);
+        if (host) {
+            getGeo();
+        }
+    };
+    
     var getGeo = function () {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition( function(pos) {
@@ -66,10 +80,10 @@
     };
    
     var analyzeWeather = function (condition) {
-        console.log(condition);
+        console.log('condition:', condition);
         var searchTerms = [];
         var humidity = condition.humidity;
-        var temp = condition.temperature;
+        var temp = condition.temp;
         var weather = condition.text;
         var random;
         
@@ -113,18 +127,26 @@
                 }
                 else {
                     var data = $.parseJSON(xhr.responseText);
-                    var product = data.query.results.result.hits;
+                    var result = data.query.results.result;
+                    var product;
+                    var random;
+
+                    if (Array.isArray(result)) {
+                        random = Math.floor(Math.random(result.length-1));
+                        product = results[random].hits;
+                    } else {
+                        product = result.hits;
+                    }
+                    product = result.hits;
+                    console.log('product:', product);
                     
                     renderTemplate(product);
                 };
             }
         });
     };
-    
+   
     var renderTemplate = function (product) {
-        console.log(product.ec_title);
-        
-        var host;
         var template = ['<div style="border:1px solid #cccc;margin-bottom:10px;">',
                         '<a href="', product.ec_item_url , '">',
                         '<img src="', product.ec_image, '" width="300"/>',
@@ -132,19 +154,10 @@
                         '<p style="color:red;">$', product.ec_price, '</p>',
                         '</a>',
                         '</div>'].join('');
-        console.log(template);
-        if (document.querySelector('.End-0 #Aside')) {
-            host = $('.End-0 #Aside');
-        } else if (document.querySelector('.yom-secondary')) {
-            host = $('.yom-secondary');
-        } else if (document.querySelector('.yom-ad-lrec')) {
-            host = $('.yom-ad-lrec');
-        }
-        console.log(host);
-        if (host) {
-            host.prepend(template);
-        }
-    };
+        
+        host.prepend(template);
+    };  
 
-    getGeo();
+    init();
+    
 })();
