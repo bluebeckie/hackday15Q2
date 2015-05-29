@@ -8,8 +8,8 @@ for 2015 Q2 internal hack day
 
 scree capture
 tw.yahoo.com
-[!tw.yahoo.com](frontpage.png?raw=true "frontpage")
+![tw.yahoo.com](frontpage.png?raw=true "frontpage")
 
 tw.news.yahoo.com
-[!tw.news.yahoo.com](news.png?raw=true "news")
+![tw.news.yahoo.com](news.png?raw=true "news")
 
