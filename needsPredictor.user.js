@@ -16,6 +16,8 @@
             host = $('.End-0 #Aside');
         } else if (document.querySelector('.yom-secondary')) {
             host = $('.yom-secondary');
+        } else if (document.querySelector('#yom-ad-lrec')) {
+            host = $('#yom-ad-lrec');
         } else if (document.querySelector('.yom-ad-lrec')) {
             host = $('.yom-ad-lrec');
         }
@@ -53,7 +55,10 @@
     };
     
     var getWeather = function (woeid) {
-        //woeid = '12795439';
+        //woeid = '23424934'; //philippines
+        //woeid = '455867'; //Sao Paulo
+        //woeid = '2487956'; //sfo
+        //woeid = '1940345'; //dubai
         var query = encodeURIComponent('select atmosphere, item.condition from weather.forecast where woeid=' + woeid);
         $.ajax({
             url: 'https://query.yahooapis.com/v1/public/yql?q=' + query + '&format=json',
@@ -110,13 +115,13 @@
         
         console.log(searchTerms);
         if (searchTerms.length > 0) {
-            random = Math.floor(Math.random(searchTerms.length));
+            random = Math.floor(Math.random()*(searchTerms.length-1));
             searchShopping(searchTerms[random]);
         }
     };
     
     var searchShopping = function (term) {
-        var query = encodeURIComponent('select hits from oneecsearch.search (0,1) where keyword="' +
+        var query = encodeURIComponent('select hits from oneecsearch.search (0,10) where keyword="' +
             term +'" and property="shopping, mall"');
             //" and sortBy="price" and sortOrder="asc" and filters="ship_fast"');
         $.ajax({
@@ -132,12 +137,11 @@
                     var random;
 
                     if (Array.isArray(result)) {
-                        random = Math.floor(Math.random(result.length-1));
-                        product = results[random].hits;
+                        random = Math.floor(Math.random()*(result.length-1));
+                        product = result[random].hits;
                     } else {
                         product = result.hits;
                     }
-                    product = result.hits;
                     console.log('product:', product);
                     
                     renderTemplate(product);
