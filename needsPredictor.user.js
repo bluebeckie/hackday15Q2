@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         always shopping
+// @name         needs predictor 
 // @namespace    http://github.com/bluebeckie
 // @version      1.0.0
 // @description  based on the weather info where the user is at, we present her suitable items from yahoo shopping to buy
